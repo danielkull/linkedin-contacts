@@ -7,7 +7,13 @@
       <button @click.prevent class="btn-contact-change-view">See all</button>
     </sections>
     <sections class="contacts--list__main">
-      <ContactsCard v-for="n in 8" :key="n" />
+      <ContactsCard
+        v-for="contact in contacts"
+        :key="contact.name"
+        :contact-data="contact"
+        @update-invitations="(n) => $emit('updateInvitations', n)"
+      >
+      </ContactsCard>
     </sections>
   </main>
 </template>
@@ -15,9 +21,11 @@
 <script>
 import ContactsCard from "@/components/ContactsCard.vue";
 export default {
+  emits: ["updateInvitations"],
   components: {
     ContactsCard,
   },
+  props: ["contacts"],
 };
 </script>
 

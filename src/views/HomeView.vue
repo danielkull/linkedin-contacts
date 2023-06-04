@@ -1,6 +1,9 @@
 <template>
   <ContactsHeader :pendingInvitation="pendingInvitation" />
-  <ContactsList />
+  <ContactsList
+    :contacts="contacts"
+    @update-invitations="(n) => this.updatePendingInvitations(n)"
+  />
 </template>
 
 <script>
@@ -12,7 +15,19 @@ export default {
   data() {
     return {
       pendingInvitation: 0,
+      contacts: [],
     };
+  },
+  methods: {
+    updatePendingInvitations(value) {
+      this.pendingInvitation += value;
+    },
+  },
+  async created() {
+    const response = await fetch(
+      "https://dummy-apis.netlify.app/api/contact-suggestions?count=8"
+    );
+    this.contacts = await response.json();
   },
 };
 </script>
