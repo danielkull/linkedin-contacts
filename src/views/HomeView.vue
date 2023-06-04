@@ -1,18 +1,41 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <ContactsHeader :pendingInvitation="pendingInvitation" />
+  <ContactsList
+    :contacts="contacts"
+    @update-invitations="(n) => this.updatePendingInvitations(n)"
+  />
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import ContactsHeader from "@/components/ContactsHeader.vue";
+import ContactsList from "@/components/ContactsList.vue";
 export default {
   name: "HomeView",
-  components: {
-    HelloWorld,
+  components: { ContactsHeader, ContactsList },
+  data() {
+    return {
+      pendingInvitation: 0,
+      contacts: [],
+    };
+  },
+  methods: {
+    updatePendingInvitations(value) {
+      this.pendingInvitation += value;
+    },
+  },
+  async created() {
+    const response = await fetch(
+      "https://dummy-apis.netlify.app/api/contact-suggestions?count=8"
+    );
+    this.contacts = await response.json();
   },
 };
 </script>
+
+<style>
+body {
+  display: grid;
+  align-content: center;
+  background-color: #f4f4f4;
+}
+</style>
