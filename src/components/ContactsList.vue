@@ -8,10 +8,12 @@
     </sections>
     <sections class="contacts--list__main">
       <ContactsCard
-        v-for="contact in contacts"
-        :key="contact.name"
+        v-for="(contact, index) in contacts"
+        :key="index"
         :contact-data="contact"
+        :index="index"
         @update-invitations="(n) => $emit('updateInvitations', n)"
+        @remove-contact="(index) => $emit('removeContact', index)"
       >
       </ContactsCard>
     </sections>
@@ -21,7 +23,7 @@
 <script>
 import ContactsCard from "@/components/ContactsCard.vue";
 export default {
-  emits: ["updateInvitations"],
+  emits: ["updateInvitations", "removeContact"],
   components: {
     ContactsCard,
   },

@@ -3,6 +3,7 @@
   <ContactsList
     :contacts="contacts"
     @update-invitations="(n) => this.updatePendingInvitations(n)"
+    @remove-contact="(index) => this.removeContact(index)"
   />
 </template>
 
@@ -21,6 +22,19 @@ export default {
   methods: {
     updatePendingInvitations(value) {
       this.pendingInvitation += value;
+    },
+    removeContact(i) {
+      this.contacts = this.contacts.filter((item, index) => {
+        return index !== i;
+      });
+      this.fetchNewContact();
+    },
+    async fetchNewContact() {
+      const response = await fetch(
+        "https://dummy-apis.netlify.app/api/contact-suggestions"
+      );
+      const newContact = await response.json();
+      this.contacts.push(newContact[0]);
     },
   },
   async created() {

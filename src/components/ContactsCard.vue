@@ -4,7 +4,10 @@
       <img :src="backgroundImage" alt="" />
       <img class="card__profile-picture" :src="contactData.picture" alt="" />
     </div>
-    <button class="card__remove-btn"></button>
+    <button
+      @click.prevent="$emit('removeContact', index)"
+      class="card__remove-btn"
+    ></button>
 
     <section class="card__profile-data">
       <h3 class="profile__full-name">{{ profilFullName }}</h3>
@@ -14,6 +17,7 @@
       <p class="profile__connections">
         🔗 {{ contactData.mutualConnections }} mutual connections
       </p>
+      <p>{{ contactData.index }}</p>
     </section>
     <button @click="contactStatusHandler" class="toggle-connection-btn">
       {{ contactStatus }}
@@ -28,8 +32,8 @@ export default {
       contactStatus: "Connect",
     };
   },
-  props: ["contact-data"],
-  emits: ["updateInvitations"],
+  props: ["contact-data", "index"],
+  emits: ["updateInvitations", "removeContact"],
   computed: {
     profilFullName() {
       const profilName = this.contactData.name;
