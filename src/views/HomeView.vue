@@ -29,12 +29,19 @@ export default {
       });
       this.fetchNewContact();
     },
+    addContectStatus(arr) {
+      arr.forEach((contact) => {
+        contact.contactStatus = "Connect";
+      });
+    },
     async fetchNewContact() {
       const response = await fetch(
         "https://dummy-apis.netlify.app/api/contact-suggestions"
       );
       const newContact = await response.json();
+      // newContact[0].contactStatus = "Connect";
       this.contacts.push(newContact[0]);
+      this.addContectStatus(newContact);
     },
   },
   async created() {
@@ -42,6 +49,7 @@ export default {
       "https://dummy-apis.netlify.app/api/contact-suggestions?count=8"
     );
     this.contacts = await response.json();
+    this.addContectStatus(this.contacts);
   },
 };
 </script>
