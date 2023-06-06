@@ -20,18 +20,13 @@
       <p>{{ contactData.index }}</p>
     </section>
     <button @click="contactStatusHandler" class="toggle-connection-btn">
-      {{ contactStatus }}
+      {{ contactData.contactStatus }}
     </button>
   </article>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      contactStatus: "Connect",
-    };
-  },
   props: ["contact-data", "index"],
   emits: ["updateInvitations", "removeContact"],
   computed: {
@@ -49,11 +44,11 @@ export default {
   },
   methods: {
     contactStatusHandler() {
-      if (this.contactStatus === "Connect") {
-        this.contactStatus = "Pending";
+      if (this.contactData.contactStatus === "Connect") {
+        this.contactData.contactStatus = "Pending";
         this.$emit("updateInvitations", 1);
       } else {
-        this.contactStatus = "Connect";
+        this.contactData.contactStatus = "Connect";
         this.$emit("updateInvitations", -1);
       }
     },
